@@ -1,28 +1,29 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <LayoutView v-if="hasToken"></LayoutView>
+    <LoginView v-else></LoginView>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { mapGetters } from "vuex";
+import LoginView from "@/views/login/LoginView.vue";
+import LayoutView from "@/views/layout/LayoutView.vue";
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    LayoutView,
+    LoginView,
+  },
+
+  data() {
+    return {};
+  },
+
+  computed: {
+    ...mapGetters({ hasToken: "user/hasToken" }),
+  },
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style scoped></style>
