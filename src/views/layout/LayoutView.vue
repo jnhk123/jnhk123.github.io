@@ -4,7 +4,9 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="text-h6"> Application </v-list-item-title>
-          <v-list-item-subtitle> 부제목 </v-list-item-subtitle>
+          <v-list-item-subtitle>
+            {{ name }}님 환영합니다~
+          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
@@ -47,7 +49,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -55,6 +57,8 @@ export default {
       items: [
         { title: "Home", icon: "home", to: "/" },
         { title: "Board", icon: "table_rows", to: "/board" },
+        { title: "User", icon: "person", to: "/user" },
+        { title: "Custom", icon: "info", to: "/custom" },
       ],
       right: null,
     };
@@ -67,6 +71,10 @@ export default {
         this.setToken("");
       }
     },
+  },
+
+  computed: {
+    ...mapGetters("user", ["name"]),
   },
 };
 </script>

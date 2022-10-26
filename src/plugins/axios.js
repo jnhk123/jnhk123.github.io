@@ -25,7 +25,12 @@ export const callApi = async (url, config) => {
       alert("토큰이 만료되었습니다. 다시 로그인 해주세요.");
       return error.response;
     } else {
-      throw new Error(error);
+      if (error?.response?.data?.error) {
+        alert(error?.response?.data?.error);
+        return error.response;
+      } else {
+        throw new Error(error);
+      }
     }
   }
 };

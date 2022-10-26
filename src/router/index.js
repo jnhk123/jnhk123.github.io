@@ -4,6 +4,8 @@ import HomeView from "../views/HomeView.vue";
 import BoardView from "../views/BoardView.vue";
 import BoardPostView from "../views/BoardFormView.vue";
 import BoardDetailView from "../views/BoardDetailView.vue";
+import CustomView from "../views/CustomView.vue";
+import UserView from "../views/UserView.vue";
 
 Vue.use(VueRouter);
 
@@ -32,6 +34,16 @@ const routes = [
     path: "/board/:id",
     name: "boardDetail",
     component: BoardDetailView,
+  },
+  {
+    path: "/user",
+    name: "user",
+    component: UserView,
+  },
+  {
+    path: "/custom",
+    name: "custom",
+    component: CustomView,
   },
 ];
 
