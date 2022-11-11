@@ -8,7 +8,7 @@
           </p>
           <p>{{ dateToYmdHms(new Date(board.createdAt)) }}</p>
         </div>
-        <p>
+        <p class="content">
           {{ board.contents }}
         </p>
         <div>
@@ -246,5 +246,9 @@ export default {
 
 .btn {
   margin: 0 5px;
+}
+
+.content {
+  white-space: pre-line;
 }
 </style>
