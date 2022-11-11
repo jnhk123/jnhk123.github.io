@@ -8,8 +8,8 @@
           </p>
           <p>{{ dateToYmdHms(new Date(board.createdAt)) }}</p>
         </div>
-        <p class="content">
-          {{ board.contents }}
+        <p>
+          <Viewer ref="toastViewer" height="500px" />
         </p>
         <div>
           <v-col>
@@ -100,6 +100,8 @@
 </template>
 
 <script>
+import { Viewer } from "@toast-ui/vue-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
 import {
   deleteComment,
   getBoard,
@@ -113,6 +115,10 @@ import { mapGetters } from "vuex";
 
 export default {
   mixins: [date],
+
+  components: {
+    Viewer,
+  },
 
   data() {
     return {
@@ -141,6 +147,7 @@ export default {
       try {
         const board = await getBoard(this.bno);
         this.board = board.data;
+        this.setContent(board.data.contents);
       } catch (error) {
         alert("통신실패");
         console.error(error);
@@ -215,6 +222,10 @@ export default {
     clickEmotion(emotion) {
       this.emotion = emotion;
       this.callPostEmotion(emotion);
+    },
+
+    setContent(content) {
+      this.$refs.toastViewer.invoke("setMarkdown", content);
     },
   },
 

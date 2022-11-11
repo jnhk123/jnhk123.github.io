@@ -2,13 +2,19 @@
   <div class="board-post">
     <v-card>
       <form @submit.prevent="submit" style="width: 95%; margin: 0 auto">
-        <v-text-field v-model="title" label="제목" required></v-text-field>
-        <v-textarea
-          filled
-          label="내용을 입력하세요."
-          rows="6"
-          v-model="contents"
-        ></v-textarea>
+        <v-row>
+          <v-text-field v-model="title" label="제목" required></v-text-field>
+        </v-row>
+        <v-row :style="{ 'margin-bottom': '20px' }">
+          <Editor
+            ref="toastEditor"
+            initialEditType="wysiwyg"
+            :style="{ width: '100%' }"
+            height="500px"
+            previewStyle="vertical"
+          >
+          </Editor>
+        </v-row>
         <v-row>
           <v-btn type="submit" class="btn-cls" style="margin-left: auto">
             등록
@@ -26,12 +32,19 @@
 </template>
 
 <script>
+import { Editor } from "@toast-ui/vue-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
 import { getBoard, patchBoard, postBoard } from "@/service/board";
+
 export default {
+  components: {
+    Editor,
+  },
+
   data() {
     return {
       title: "",
-      contents: "",
+      // contents: "",
 
       bno: 0,
     };
@@ -47,7 +60,7 @@ export default {
         if (this.$route.params.id) {
           const response = await patchBoard({
             title: this.title,
-            contents: this.contents,
+            contents: this.getContent(),
             bno: this.bno,
           });
 
@@ -58,7 +71,7 @@ export default {
         } else {
           const response = await postBoard({
             title: this.title,
-            contents: this.contents,
+            contents: this.getContent(),
           });
           if (response.status === 201) {
             alert("등록 완료");
@@ -75,11 +88,20 @@ export default {
       try {
         const board = await getBoard(this.bno);
         this.title = board.data.title;
-        this.contents = board.data.contents;
+        this.setContent(board.data.contents);
+        // this.contents = board.data.contents;
       } catch (error) {
         alert("통신실패");
         console.error(error);
       }
+    },
+
+    getContent() {
+      return this.$refs.toastEditor.invoke("getMarkdown");
+    },
+
+    setContent(content) {
+      this.$refs.toastEditor.invoke("setMarkdown", content);
     },
   },
 
