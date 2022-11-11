@@ -60,6 +60,7 @@ export default {
 
   methods: {
     ...mapActions("user", ["setName", "setId", "setToken"]),
+    ...mapActions("loading", ["setLoading"]),
 
     async refreshUser() {
       /**
@@ -67,16 +68,24 @@ export default {
        *
        * vuex 유저정보 갱신 및 text-field 초기화.
        */
-      const response = await callGetUser();
-      const { data: user } = response;
-      this.setId(user.id);
-      this.setName(user.name);
+      this.setLoading(true);
+      try {
+        const response = await callGetUser();
 
-      this.user.id = user.id;
-      this.user.name = user.name;
-      this.user.pwd = "";
-      this.user.newPwd = "";
-      this.checkPwd = "";
+        const { data: user } = response;
+        this.setId(user.id);
+        this.setName(user.name);
+
+        this.user.id = user.id;
+        this.user.name = user.name;
+        this.user.pwd = "";
+        this.user.newPwd = "";
+        this.checkPwd = "";
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.setLoading(false);
+      }
     },
 
     async modify() {

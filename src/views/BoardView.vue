@@ -52,7 +52,7 @@
 <script>
 import { deleteBoard, getBoards } from "@/service/board";
 import date from "@/mixins/date";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   mixins: [date],
@@ -83,17 +83,22 @@ export default {
   },
 
   methods: {
+    ...mapActions("loading", ["setLoading"]),
+
     initialize() {
       this.callGetBoards();
     },
 
     async callGetBoards() {
       try {
+        this.setLoading(true);
         const response = await getBoards();
         this.boards = response.data;
       } catch (error) {
         alert("통신실패");
         console.error(error);
+      } finally {
+        this.setLoading(false);
       }
     },
     // 삭제여부 모달 창 on

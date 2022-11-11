@@ -1,7 +1,9 @@
 <template>
   <div>
-    <LayoutView v-if="hasToken"></LayoutView>
-    <LoginView v-else></LoginView>
+    <LoadingBar>
+      <LayoutView v-if="hasToken"></LayoutView>
+      <LoginView v-else></LoginView>
+    </LoadingBar>
   </div>
 </template>
 
@@ -9,11 +11,13 @@
 import { mapGetters } from "vuex";
 import LoginView from "@/views/login/LoginView.vue";
 import LayoutView from "@/views/layout/LayoutView.vue";
+import LoadingBar from "@/components/LoadingBar.vue";
 
 export default {
   components: {
     LayoutView,
     LoginView,
+    LoadingBar,
   },
 
   data() {

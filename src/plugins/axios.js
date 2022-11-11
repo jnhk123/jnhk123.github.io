@@ -2,8 +2,8 @@ import axios from "axios";
 import store from "@/store";
 
 const instance = axios.create({
-  baseURL: "https://api.devcury.kr/",
-  // baseURL: "http://localhost:8090/",
+  // baseURL: "https://api.devcury.kr/",
+  baseURL: "http://localhost:8090/",
   timeout: 20000,
 });
 
